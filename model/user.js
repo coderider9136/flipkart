@@ -2,6 +2,7 @@ const { User } = require("../schema/user")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { emailverify } = require("../helper/email")
+require("dotenv").config()
 
 
 async function add(param) {
@@ -48,7 +49,7 @@ async function login(param) {
         return { error: { status: 400, message: "invalid user id or password" } }
     }
 
-    let token = jwt.sign({ id: userData.id }, "pk")
+    let token = jwt.sign({ id: userData.id },process.env.SECRETCODE)
 
     return { data: token }
 }

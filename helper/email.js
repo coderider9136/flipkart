@@ -43,8 +43,8 @@ async function emailverify(param1, param2, param3) {
     const transport = mailer.createTransport({
         service: "gmail",
         auth: {
-            user: "scincefreak60@gmail.com",
-            pass: "xbouxkxndfgoemlv"
+            user: "email",
+            pass: "passkey"
 
         }
     })
