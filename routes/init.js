@@ -1,0 +1,28 @@
+const role = require("./role")
+const permission = require("./permission")
+const permit = require("./rolePermission")
+const userRole = require("./userRole")
+const express = require("express")
+const app = express()
+const user = require("./user")
+const product = require("./product")
+const cat = require("./category")
+const cart = require("./cart")
+const order = require("./order")
+const orderitem = require("./order-item")
+const wishlist = require("./wishlist")
+
+app.use("/api/user", user)
+app.use("/api/product", product)
+app.use("/role", role)
+app.use("/permission", permission)
+app.use("/role-permission", permit)
+app.use("/userrole", userRole)
+app.use("/category", cat)
+app.use("/cart", cart)
+app.use("/order", order)
+app.use("/orderitem", orderitem)
+app.use("/wishlist", wishlist)
+
+
+module.exports = app
