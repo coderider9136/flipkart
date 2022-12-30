@@ -4,15 +4,17 @@ const { User } = require("../model/user")
 let userObj = {};
 
 userObj.adduser = async(req, res) => {
-    let { data, error } = await User.add(req.body)
+    let { data, error } = await User.add(req.body).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
     return res.status(200).send(data)
 }
 userObj.updateuser = async(req, res) => {
-    let { data, error } = await User.update(req.body, req.params.id)
+    let { data, error } = await User.update(req.body, req.params.id).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
 
@@ -20,8 +22,9 @@ userObj.updateuser = async(req, res) => {
 }
 
 userObj.getall = async(req, res) => {
-    let { data, error } = await User.get()
+    let { data, error } = await User.get().catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
 
@@ -29,16 +32,18 @@ userObj.getall = async(req, res) => {
 }
 
 userObj.deleteall = async(req, res) => {
-    let { data, error } = await User.remove(req.params.id)
+    let { data, error } = await User.remove(req.params.id).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
     return res.status(200).send("deleted")
 }
 
 userObj.login = async(req, res) => {
-    let { data, error } = await User.login(req.body)
+    let { data, error } = await User.login(req.body).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
 
@@ -46,8 +51,9 @@ userObj.login = async(req, res) => {
 }
 
 userObj.forget = async(req, res) => {
-    let { data, error } = await User.forget(req.body)
+    let { data, error } = await User.forget(req.body).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
 
@@ -55,8 +61,9 @@ userObj.forget = async(req, res) => {
 }
 
 userObj.reset = async(req, res) => {
-    let { data, error } = await User.verify(req.params, req.body)
+    let { data, error } = await User.verify(req.params, req.body).catch((err) => { return { error: err } })
     if (error) {
+        error.status = (error.status) ? error.status : 400
         return res.status(error.status).send(error.message)
     }
 

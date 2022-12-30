@@ -1,27 +1,7 @@
 const { DataTypes, Model, Sequelize, sequelize } = require("../config/db")
 const { User } = require("../schema/user")
 const { role } = require("./role")
-
-class userRole extends Model {};
-
-userRole.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        role_id: {
-            type: DataTypes.INTEGER
-        },
-        user_id: {
-            type: DataTypes.INTEGER
-        }
-    }, {
-        modelName: "userRole",
-        tableName: "user-role",
-        sequelize
-    })
-    //userRole.sync({ force: true })
+const { userRole } = require("../schema/userRole")
 
 
 async function add(param) {
@@ -55,6 +35,34 @@ async function add(param) {
     return { data: userrole }
 }
 
+async function get() {
+    let userrole = await userRole.findAll().catch((err) => { return { error: err } })
+    if (userrole.error || !userrole) {
+        return { error: { status: 400, message: userrole.error || "cant find user role" } }
+
+    }
+    return { data: userrole }
+}
+async function update(param1, param2) {
+    let userrole = await userRole.update(param1, { where: { id: param2 } }).catch((err) => { return { error: err } })
+    if (!userrole || userrole.error) {
+        return { error: { status: 400, message: userrole.error.message || "cant update user role" } }
+
+    }
+    return { data: userrole }
+}
+async function remove(param) {
+    let userrole = await userRole.destroy({ where: { id: param } }).catch((err) => { return { error: err } })
+    if (!userrole || userrole.error) {
+        return { error: { status: 400, message: userrole.error.message || "cant update user role" } }
+
+    }
+    return { data: userrole }
+}
+
 module.exports = {
     add,
+    get,
+    update,
+    remove
 }

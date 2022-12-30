@@ -1,33 +1,7 @@
-const { DataTypes, Model, Sequelize, sequelize } = require("../config/db")
+const { role } = require("../schema/role")
+const { permission } = require("../schema/permission")
 
-const { permission } = require("./permission")
-
-const { Permit } = require("./rolePermission")
-
-class role extends Model {};
-role.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            validate: {
-                isIn: {
-                    args: [
-                        ["admin", "moderator", "user", "superAdmin", "seller"]
-                    ],
-                    msg: "role doesn't exist "
-                }
-            }
-        }
-    }, {
-        modelName: "role",
-        tableName: "role",
-        sequelize
-    })
-    //role.sync({ force: true })
+const { Permit } = require("../schema/rolePermission")
 
 async function add(param) {
     let roleData = await role.create({ name: param.name }).catch((err) => { return { error: err } })
@@ -65,7 +39,38 @@ async function add(param) {
 
     return { data: [roleData, permitData] }
 }
+
+async function update(param1, param2) {
+    let find = await User.findOne({ where: { id: param2 } }).catch((err) => { return { error: err } })
+    if (!find || find.error) {
+        return { error: { status: 400, message: find.error || "cant find" } }
+    }
+    let roleData = await role.update(param1, { where: { id: param2 } }).catch((err) => { return { error: err } })
+    if (roleData.error) {
+        return { error: { status: 400, message: roleData.error.message || "cant update" } }
+    }
+    return { data: roleData }
+
+}
+
+async function remove(param1) {
+    let find = await User.findOne({ where: { id: param1 } }).catch((err) => { return { error: err } })
+    if (!find || find.error) {
+        return { error: { status: 400, message: find.error || "cant find" } }
+    }
+    let roleData = await role.destroy({ where: { id: param1 } }).catch((err) => { return { error: err } })
+    if (roleData.error) {
+        return { error: { status: 400, message: roleData.error.message || "cant delete" } }
+    }
+    return { data: roleData }
+
+}
+
+
 module.exports = {
-    role,
+
     add,
+    get,
+    update,
+    remove
 }

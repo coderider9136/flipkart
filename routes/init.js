@@ -11,6 +11,7 @@ const cart = require("./cart")
 const order = require("./order")
 const orderitem = require("./order-item")
 const wishlist = require("./wishlist")
+const pay = require("./payment")
 
 app.use("/api/user", user)
 app.use("/api/product", product)
@@ -23,6 +24,7 @@ app.use("/cart", cart)
 app.use("/order", order)
 app.use("/orderitem", orderitem)
 app.use("/wishlist", wishlist)
+app.use("payment", pay)
 
 
 module.exports = app

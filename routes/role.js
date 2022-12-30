@@ -5,6 +5,9 @@ const auth = require("../helper/auth")
 
 
 rout.post("/", role.addall)
+rout.get("/", role.get)
+rout.put("/:id", role.update)
+rout.delete("/:id", role.remove)
 
 
 module.exports = rout
